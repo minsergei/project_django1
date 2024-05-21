@@ -11,8 +11,8 @@ class Category(models.Model):
         return f"{self.name_category} {self.description}"
 
     class Meta:
-        verbose_name = "категория"  # Настройка для наименования одного объекта
-        verbose_name_plural = "категории"  # Настройка для наименования набора объектов
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
 
 
 class Product(models.Model):
@@ -46,12 +46,17 @@ class Product(models.Model):
         verbose_name="Дата последнего изменения",
         help_text="Введите дату последнего изменения"
     )
+    manufactured_at = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Дата производства продукта",
+        help_text="Введите дату производства продукта"
+    )
 
     def __str__(self):
-        # Строковое отображение объекта
         return f"{self.name_product} {self.price}"
 
     class Meta:
-        verbose_name = "продукт"  # Настройка для наименования одного объекта
-        verbose_name_plural = "продукты"  # Настройка для наименования набора объектов
+        verbose_name = "продукт"
+        verbose_name_plural = "продукты"
         ordering = ['id_category']
