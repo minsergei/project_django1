@@ -1,0 +1,28 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name_product": "Яблоки",
+      "description": "Краснодарские",
+      "preview": "media/task1_1.jpg",
+      "category": 1,
+      "price": 100,
+      "created_at": "2024-05-20",
+      "updated_at": "2024-05-20"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name_product": "Картошка",
+      "description": "красная",
+      "preview": "",
+      "category": 2,
+      "price": 25,
+      "created_at": "2024-05-20",
+      "updated_at": "2024-05-20"
+    }
+  }
+]
