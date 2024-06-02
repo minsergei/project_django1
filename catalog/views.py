@@ -1,17 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from catalog.models import Product
+from django.views.generic import ListView, DetailView
 
 
-def catalog_index(request):
-    product_list = Product.objects.all()
-    context = {'products': product_list}
-    return render(request, "index.html", context)
+class ProductListView(ListView):
+    model = Product
 
 
-def catalog_product(request, pk):
-    product1 = get_object_or_404(Product, pk=pk)
-    context = {'product': product1}
-    return render(request, "product.html", context)
+class ProductDetailView(DetailView):
+    model = Product
 
 
 def catalog_contacts(request):
@@ -20,4 +17,4 @@ def catalog_contacts(request):
         phone = request.POST.get("phone")
         message = request.POST.get("message")
         print(f"Сообщение от {name}, телефон: {phone} - {message}")
-    return render(request, "contacts.html")
+    return render(request, "catalog/contacts.html")
