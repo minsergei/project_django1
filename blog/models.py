@@ -6,6 +6,7 @@ class Blog(models.Model):
         max_length=150, verbose_name="Заголовок", help_text="Введите заголовок"
     )
     slug = models.CharField(
+        max_length=150,
         null=True,
         blank=True,
         verbose_name="Человекопонятный URL",
@@ -22,6 +23,7 @@ class Blog(models.Model):
         help_text="Укажите изображение",
     )
     created_at = models.DateField(
+        auto_now_add=True,
         null=True,
         blank=True,
         verbose_name="Дата создания",
@@ -32,7 +34,7 @@ class Blog(models.Model):
         verbose_name="Признак публикации",
         help_text="Укажите признак публикации",
     )
-    count_views = models.IntegerField(
+    count_views = models.PositiveIntegerField(
         default=0,
         verbose_name="Количество просмотров",
     )
