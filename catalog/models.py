@@ -51,6 +51,7 @@ class Product(models.Model):
     created_at = models.DateField(
         null=True,
         blank=True,
+        auto_now_add=True,
         verbose_name="Дата создания",
         help_text="Введите дату создания",
     )
@@ -68,3 +69,32 @@ class Product(models.Model):
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
         ordering = ["category"]
+
+
+class Version(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name="Продукт",
+        help_text="Выберите продукт",
+        related_name="versions",
+    )
+    number_version = models.PositiveIntegerField(
+        verbose_name="Номер версии", help_text="Введите версию продукта"
+    )
+    name_version = models.CharField(
+        max_length=150, verbose_name="Название", help_text="Введите название"
+    )
+    active_version = models.BooleanField(
+        default=False,
+        verbose_name="Признак активной версии",
+        help_text="Укажите признак версии",
+    )
+
+    def __str__(self):
+        return f"{self.number_version}"
+
+    class Meta:
+        verbose_name = "версия"
+        verbose_name_plural = "версии"
+        ordering = ["active_version"]
