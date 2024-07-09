@@ -1,5 +1,5 @@
 asgiref
-Django
+Django==4.2
 typing_extensions
 psycopg2-binary
 pillow
