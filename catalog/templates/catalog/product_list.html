@@ -24,7 +24,7 @@
                 <div class="btn-group">
                   <a class="btn btn-primary" href="{% url 'catalog:catalog_product' object.pk %}" role="button">Просмотр</a>
                   <p>|</p>
-                  {% if user.is_authenticated %}
+                  {% if perms.catalog.can_publish_product or perms.catalog.change_description_product or perms.catalog.change_category_product or user == object.owner %}
                   <a class="btn btn-primary" href="{% url 'catalog:product_update' object.pk %}" role="button">Изменить</a>
                   <p>|</p>
                   <a class="btn btn-primary" href="{% url 'catalog:product_delete' object.pk %}" role="button">Удалить</a>

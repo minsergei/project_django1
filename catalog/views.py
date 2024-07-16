@@ -1,8 +1,9 @@
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 from django.views.generic import (
     ListView,
@@ -92,12 +93,27 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return self.form_invalid(form)
         return super().form_valid(form)
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm("catalog.can_publish_product") or user.has_perm("catalog.change_description_product") or user.has_perm("catalog.change_category_product"):
+            return ProductModeratorForm
+        raise PermissionDenied
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     fields = ("name_product",)
     success_url = reverse_lazy("catalog:catalog_index")
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm("catalog.can_publish_product") or user.has_perm("catalog.change_description_product") or user.has_perm("catalog.change_category_product"):
+            return ProductModeratorForm
+        raise PermissionDenied
 
 def catalog_contacts(request):
     if request.method == "POST":
