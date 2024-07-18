@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 from django.views.generic import (
     ListView,
     DetailView,
@@ -12,6 +12,14 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from catalog.services import get_list_from_cache
+
+
+class CategoryListView(ListView):
+    model = Category
+
+    def get_queryset(self):
+        return get_list_from_cache()
 
 
 class ProductListView(ListView):
@@ -107,13 +115,6 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     fields = ("name_product",)
     success_url = reverse_lazy("catalog:catalog_index")
 
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return ProductForm
-        if user.has_perm("catalog.can_publish_product") or user.has_perm("catalog.change_description_product") or user.has_perm("catalog.change_category_product"):
-            return ProductModeratorForm
-        raise PermissionDenied
 
 def catalog_contacts(request):
     if request.method == "POST":
