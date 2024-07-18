@@ -6,3 +6,5 @@ pillow
 black
 ipython
 pytils
+redis
+python-dotenv
